@@ -8,6 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <header class="jumbotron-fluid bg-success p-3">
@@ -37,7 +38,21 @@
             <div class="col-md-6">
                 <section id="canvas">
                     <h2 class="text-center border-bottom text-success p-2 mb-4">Canvas</h2>
-                    <canvas id="canvas" width="800" height="600"></canvas>
+                    <div class="container">
+                        <form>
+                            <div class="form-group row">
+                                <label for="color" class="col-sm-2 col-form-label">Vyber barvu</label>
+                                <div class="col-sm-4">
+                                      <select class="form-control" id="color">
+                                        <option value="red">red</option>
+                                        <option value="green">green</option>
+                                        <option value="blue">blue</option>
+                                      </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <canvas id="mycanvas" width="800" height="600"></canvas>
                 </section>                                
             </div>
         </div>

@@ -1,3 +1,5 @@
+/* Chat */
+
 const message = document.getElementById('message');
 const send = document.getElementById('send');
 const chatBox = document.getElementById('chatbox');
@@ -38,3 +40,41 @@ socket.on('chat message', function (msg) {
 });
 
 
+/* Canvas */
+const canvas = document.getElementById("mycanvas");
+const ctx = canvas.getContext("2d");
+const color = document.getElementById("color");
+
+let circles = [];
+
+class Circle {
+  static DEFAULT_RADIUS = 20;
+
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.radius = Circle.DEFAULT_RADIUS;
+  }
+}
+
+function redrawCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    circles.forEach(function(circle) {
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI);
+      ctx.fillStyle = circle.color;
+      ctx.fill();
+      ctx.closePath();
+    });
+}
+
+canvas.addEventListener("click", function (event) {
+  circles.push(new Circle(event.offsetX, event.offsetY, color.value));
+  socket.emit('canvas message', circles);
+});
+
+socket.on('canvas message', function (msg) {
+  circles = msg;
+  redrawCanvas();
+});
