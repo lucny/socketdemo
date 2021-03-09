@@ -1,0 +1,21 @@
+{
+  "name": "socket-demo",
+  "version": "1.0.0",
+  "description": "Ukazka pouziti socket.io",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "keywords": [
+    "socket",
+    "web",
+    "server"
+  ],
+  "author": "Marek Lucny",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.1.2"
+  }
+}
