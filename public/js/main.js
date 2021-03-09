@@ -45,8 +45,6 @@ const canvas = document.getElementById("mycanvas");
 const ctx = canvas.getContext("2d");
 const color = document.getElementById("color");
 
-let circles = [];
-
 class Circle {
   static DEFAULT_RADIUS = 20;
 
@@ -58,7 +56,7 @@ class Circle {
   }
 }
 
-function redrawCanvas() {
+function redrawCanvas(circles) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     circles.forEach(function(circle) {
       ctx.beginPath();
@@ -70,11 +68,9 @@ function redrawCanvas() {
 }
 
 canvas.addEventListener("click", function (event) {
-  circles.push(new Circle(event.offsetX, event.offsetY, color.value));
-  socket.emit('canvas message', circles);
+  socket.emit('canvas message', new Circle(event.offsetX, event.offsetY, color.value));
 });
 
-socket.on('canvas message', function (msg) {
-  circles = msg;
-  redrawCanvas();
+socket.on('canvas message', function (circles) {
+  redrawCanvas(circles);
 });

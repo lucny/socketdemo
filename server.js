@@ -10,13 +10,16 @@ const io = socketio(server);
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+let circles = [];
+
 io.on('connection', (socket) => {
     socket.on('chat message', msg => {
       io.emit('chat message', msg);
     });
 
     socket.on('canvas message', msg => {
-      io.emit('canvas message', msg);
+      circles.push(msg);  
+      io.emit('canvas message', circles);
     });
 });
 
