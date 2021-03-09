@@ -19,11 +19,15 @@ submit.addEventListener('click', function(e){
 
 socket.on('login message', function (msg) {
    if (msg.status === 200) {
-       login.style.display = 'none';
-       transmission.style.display = '';
+       if (msg.nick == nickname.value) {
+           login.style.display = 'none';
+           transmission.style.display = '';
+           document.querySelector('h1').innerText = nickname.value;
+           document.querySelector('title').innerText = nickname.value;
+       }
        alert(msg.success);       
    } 
-   if (msg.status === 400) {
+   if (msg.status === 400 && msg.nick == nickname.value) {
        alert(msg.error);
    }
 });
@@ -46,7 +50,7 @@ class ChatItem {
         <div class="media border p-3 mt-2">
             <img src="img/avatar-man.png" alt="${this.nick}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
             <div class="media-body">
-            <h4>${this.nick} <small><i>Posted on ${this.time}</i></small></h4>
+            <h4>${this.nick} <small><i>Posláno: ${this.time}</i></small></h4>
             <p>${this.message}</p>
             </div>
         </div>`;
@@ -63,7 +67,7 @@ send.addEventListener('click', function(e){
 });
 
 socket.on('chat message', function (msg) {
-    let chatItem = new ChatItem(msg.message, msg.nick);
+    let chatItem = new ChatItem(msg.message, msg.nick, msg.time);
     chatItem.render(chatBox);
     window.scrollTo(0, document.body.scrollHeight);
 });
@@ -73,6 +77,7 @@ socket.on('chat message', function (msg) {
 const canvas = document.getElementById("mycanvas");
 const ctx = canvas.getContext("2d");
 const color = document.getElementById("color");
+const activeNick = document.getElementById('activenick');
 
 class Circle {
   static DEFAULT_RADIUS = 20;
@@ -97,9 +102,11 @@ function redrawCanvas(circles) {
 }
 
 canvas.addEventListener("click", function (event) {
-  socket.emit('canvas message', new Circle(event.offsetX, event.offsetY, color.value));
+  if (activeNick.innerText == nickname.value)
+    socket.emit('canvas message', new Circle(event.offsetX, event.offsetY, color.value));
 });
 
-socket.on('canvas message', function (circles) {
-  redrawCanvas(circles);
+socket.on('canvas message', function (res) {
+  activeNick.innerText = res.nick;  
+  redrawCanvas(res.data);
 });
