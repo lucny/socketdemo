@@ -1,9 +1,38 @@
+const socket = io();
+
+const login = document.getElementById('login');
+const transmission = document.getElementById('transmission');
+transmission.style.display = 'none';
+
+/* Login */
+const nickname = document.getElementById('nickname');
+const code = document.getElementById('code');
+const submit = document.getElementById('submit');
+
+submit.addEventListener('click', function(e){
+    e.preventDefault();
+    if (nickname.value && code.value) {
+      socket.emit('login message', {'nickname': nickname.value, 'code': code.value});
+      code.value = '';
+    }
+});
+
+socket.on('login message', function (msg) {
+   if (msg.status === 200) {
+       login.style.display = 'none';
+       transmission.style.display = '';
+       alert(msg.success);       
+   } 
+   if (msg.status === 400) {
+       alert(msg.error);
+   }
+});
+
 /* Chat */
 
 const message = document.getElementById('message');
 const send = document.getElementById('send');
 const chatBox = document.getElementById('chatbox');
-const socket = io();
 
 class ChatItem {
     constructor(message, nick='Anonymous', time='Eternity') {
@@ -28,13 +57,13 @@ class ChatItem {
 send.addEventListener('click', function(e){
     e.preventDefault();
     if (message.value) {
-      socket.emit('chat message', message.value);
+      socket.emit('chat message', {'message': message.value, 'nick': nickname.value});
       message.value = '';
     }
 });
 
 socket.on('chat message', function (msg) {
-    let chatItem = new ChatItem(msg);
+    let chatItem = new ChatItem(msg.message, msg.nick);
     chatItem.render(chatBox);
     window.scrollTo(0, document.body.scrollHeight);
 });

@@ -15,7 +15,29 @@
         <h1 class="display-4 text-center text-white">Demo socket.io</h1>
     </header> 
     <main class="container-fluid">
-        <div class="row">
+        <div class="row" id="login">
+            <div class="col-12 bg-info">
+                <h2 class="text-center border-bottom text-light p-2 mb-4">Přihlášení</h2>
+                <div class="container">
+                    <form>
+                        <div class="form-group row text-light">
+                            <label for="nickname" class="col-sm-2 col-form-label">Přezdívka (nickname)</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="nickname" placeholder="Zde bude nickname">
+                            </div>
+                            <label for="code" class="col-sm-2 col-form-label">Přihlašovací kód</label>
+                            <div class="col-sm-3">
+                                <input type="password" class="form-control" id="code" placeholder="Zde napiš tajný kód">
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" id="submit" class="btn btn-primary">Potvrdit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>        
+        <div class="row" id="transmission">
             <div class="col-md-6 bg-light">
                 <section id="chat">
                     <h2 class="text-center border-bottom text-primary p-2 mb-4">Chat</h2>
