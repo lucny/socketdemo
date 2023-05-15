@@ -11,12 +11,12 @@ const io = socketio(server);
 app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', (socket) => {
-    socket.on('chat message', msg => {
-      io.emit('chat message', msg);
+    socket.on('chat', msg => {
+      io.emit('chat', msg);
     });
 
-    socket.on('canvas message', msg => {
-      io.emit('canvas message', msg);
+    socket.on('drawing', msg => {
+      io.emit('drawing', msg);
     });
 });
 
